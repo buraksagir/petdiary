@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/services/comment_service.dart';
+import 'package:petdiary/services/comment_service.dart';
 
 import 'comment_cubit_state.dart';
 

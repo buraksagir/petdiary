@@ -1,4 +1,4 @@
-import 'package:petapp/data/models/post_model.dart';
+import 'package:petdiary/data/models/post_model.dart';
 
 class User {
   int? id;

@@ -2,9 +2,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/comment/comment_cubit.dart';
-import 'package:petapp/cubit/message/message_cubit.dart';
-import 'package:petapp/presentation/widgets/snackbar.dart';
+import 'package:petdiary/cubit/comment/comment_cubit.dart';
+import 'package:petdiary/cubit/message/message_cubit.dart';
+import 'package:petdiary/presentation/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../cubit/comment/comment_cubit_state.dart';
 import '../../cubit/follow/follow_cubit.dart';

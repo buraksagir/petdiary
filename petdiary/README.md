@@ -1,3 +1,3 @@
-# petapp
+# petdiary
 
 A new Flutter project.

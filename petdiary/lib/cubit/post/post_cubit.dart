@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/post/post_cubit_state.dart';
-import 'package:petapp/services/post_service.dart';
+import 'package:petdiary/cubit/post/post_cubit_state.dart';
+import 'package:petdiary/services/post_service.dart';
 
 class PostCubit extends Cubit<PostState> {
   PostCubit() : super(const PostState());

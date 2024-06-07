@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:petapp/data/models/post_model.dart';
+import 'package:petdiary/data/models/post_model.dart';
 
 class MyPostState extends Equatable {
   final bool isLoading;

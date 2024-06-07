@@ -1,4 +1,4 @@
-package com.example.petapp
+package com.example.petdiary
 
 import io.flutter.embedding.android.FlutterActivity
 

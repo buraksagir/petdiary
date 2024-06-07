@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:petapp/data/models/auth_models/token_model.dart';
+import 'package:petdiary/data/models/auth_models/token_model.dart';
 
 class RegisterState extends Equatable {
   final bool isLoading;

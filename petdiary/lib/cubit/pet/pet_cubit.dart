@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:petapp/services/pet_service.dart';
+import 'package:petdiary/services/pet_service.dart';
 import 'pet_cubit_state.dart';
 
 class PetCubit extends Cubit<PetState> {

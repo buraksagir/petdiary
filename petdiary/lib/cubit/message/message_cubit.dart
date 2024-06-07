@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/services/message_service.dart';
+import 'package:petdiary/services/message_service.dart';
 
 import 'message_cubit_state.dart';
 

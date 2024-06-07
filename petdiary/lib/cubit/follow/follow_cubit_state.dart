@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:petapp/data/models/follow_model.dart';
+import 'package:petdiary/data/models/follow_model.dart';
 
 class FollowState extends Equatable {
   final bool isLoading;

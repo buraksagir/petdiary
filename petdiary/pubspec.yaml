@@ -1,4 +1,4 @@
-name: petapp
+name: petdiary
 description: "Social media application for paws!"
 publish_to: 'none'
 version: 0.1.0

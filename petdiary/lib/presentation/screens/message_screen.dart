@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/message/message_cubit.dart';
-import 'package:petapp/cubit/user/user_cubit.dart';
-import 'package:petapp/presentation/screens/home_screen.dart';
-import 'package:petapp/presentation/widgets/message_bubble.dart';
+import 'package:petdiary/cubit/message/message_cubit.dart';
+import 'package:petdiary/cubit/user/user_cubit.dart';
+import 'package:petdiary/presentation/screens/home_screen.dart';
+import 'package:petdiary/presentation/widgets/message_bubble.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../cubit/message/message_cubit_state.dart';

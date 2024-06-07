@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/auth/register_cubit_state.dart';
-import 'package:petapp/services/auth_service.dart';
+import 'package:petdiary/cubit/auth/register_cubit_state.dart';
+import 'package:petdiary/services/auth_service.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(const RegisterState());

@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/auth/login_cubit_state.dart';
-import 'package:petapp/services/auth_service.dart';
+import 'package:petdiary/cubit/auth/login_cubit_state.dart';
+import 'package:petdiary/services/auth_service.dart';
 
 import '../../generated/locale_keys.g.dart';
 

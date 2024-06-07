@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/auth/register_cubit.dart';
-import 'package:petapp/cubit/auth/register_cubit_state.dart';
-import 'package:petapp/presentation/themes/app_theme.dart';
-import 'package:petapp/presentation/validators/textfield_validators.dart';
-import 'package:petapp/presentation/widgets/snackbar.dart';
-import 'package:petapp/presentation/widgets/text_field.dart';
+import 'package:petdiary/cubit/auth/register_cubit.dart';
+import 'package:petdiary/cubit/auth/register_cubit_state.dart';
+import 'package:petdiary/presentation/themes/app_theme.dart';
+import 'package:petdiary/presentation/validators/textfield_validators.dart';
+import 'package:petdiary/presentation/widgets/snackbar.dart';
+import 'package:petdiary/presentation/widgets/text_field.dart';
 
 import '../../../generated/locale_keys.g.dart';
 

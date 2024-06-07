@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/cubit/follow/follow_cubit_state.dart';
-import 'package:petapp/services/follow_service.dart';
+import 'package:petdiary/cubit/follow/follow_cubit_state.dart';
+import 'package:petdiary/services/follow_service.dart';
 
 class FollowCubit extends Cubit<FollowState> {
   FollowCubit() : super(const FollowState());

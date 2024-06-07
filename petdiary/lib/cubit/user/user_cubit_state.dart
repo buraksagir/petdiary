@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:petapp/data/models/user_model.dart';
+import 'package:petdiary/data/models/user_model.dart';
 
 class SingleUserState extends Equatable {
   final bool isLoading;

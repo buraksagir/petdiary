@@ -2,8 +2,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petapp/presentation/widgets/snackbar.dart';
-import 'package:petapp/presentation/widgets/text_field.dart';
+import 'package:petdiary/presentation/widgets/snackbar.dart';
+import 'package:petdiary/presentation/widgets/text_field.dart';
 import '../../cubit/pet/pet_cubit.dart';
 import '../../cubit/pet/pet_cubit_state.dart';
 import '../../cubit/post/post_cubit.dart';
