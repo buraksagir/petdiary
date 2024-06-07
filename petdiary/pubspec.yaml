@@ -27,11 +27,8 @@ dependencies:
   image_picker: ^1.0.7
   easy_localization: ^3.0.5
   easy_localization_loader: ^2.0.1
-  web_socket_channel: ^3.0.0
   shimmer: ^3.0.0
   flutter_launcher_icons: ^0.13.1
-  cloud_firestore: ^4.17.5
-  firebase_core: ^2.32.0
   http: ^1.2.1
   image_cropper: ^7.0.1
   dotted_border: ^2.1.0
