@@ -131,13 +131,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: user?.photo == null
-                                      ? const DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/app_logo.png'),
-                                          fit: BoxFit.cover,
-                                        )
+                                      ? null //! fdsafgsdgdfgdsfg
                                       : DecorationImage(
-                                          image: NetworkImage(user!.photo!),
+                                          image:
+                                              NetworkImage(user!.photo ?? ""),
                                           fit: BoxFit.cover),
                                   color: AppTheme.lightTheme.colorScheme.primary
                                       .withAlpha(40),

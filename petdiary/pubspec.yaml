@@ -43,8 +43,7 @@ flutter:
   assets:
     - assets/langs/
     - assets/images/app_logo.png
-    - assets/images/onur.jpg
-    - assets/images/asdasd.jpg
+    - assets/images/user.png
 
   fonts:
     - family: Handwrite

@@ -94,14 +94,19 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                 Stack(
                                   alignment: Alignment.bottomLeft,
                                   children: [
-                                    Image.network(
-                                      user!.photo!,
-                                      fit: BoxFit.cover,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      width: MediaQuery.of(context).size.width,
-                                    ),
+                                    user!.photo != null
+                                        ? Image.network(
+                                            user.photo ?? "",
+                                            fit: BoxFit.cover,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                2,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          )
+                                        : Image.asset("assets/images/user.png"),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
