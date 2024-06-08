@@ -44,8 +44,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   int? followerCount;
   int? followingCount;
 
-  String url =
-      "https://st.depositphotos.com/2166845/4512/i/450/depositphotos_45122357-stock-photo-bernese-mountain-dog.jpg";
   late final FollowCubit _followCubit;
   int selectedPhotoIndex = -1;
 
@@ -150,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 alignment: Alignment.bottomLeft,
                                 children: [
                                   Image.network(
-                                    url,
+                                    user!.photo!,
                                     fit: BoxFit.cover,
                                     height:
                                         MediaQuery.of(context).size.height / 2,

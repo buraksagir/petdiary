@@ -86,5 +86,7 @@
   "profileLock": "Profile privacy",
   "petNameError": "Please enter a valid name",
   "createPet": "Add friend",
-  "createPetToSharePost" : "Please add pet to share post"
+  "createPetToSharePost" : "Please add pet to share post",
+  "reportUser": "Report user",
+  "followRequests": "Follow Requests"
 }

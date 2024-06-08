@@ -91,12 +91,11 @@ class _RootScreenState extends State<RootScreen>
                 icon: Icon(Icons.add_box_outlined, size: 27),
                 label: 'Post Share'),
             BottomNavigationBarItem(
-              icon: widget.contextUserId.isEmpty
+              icon: widget.contextUser?.photo != null
                   ? CircleAvatar(
                       radius: _currentIndex != 3 ? 17 : 24,
-                      backgroundImage: const NetworkImage(
-                          //! widget.contextUser!.photo! alttaki linki bununla değiştir
-                          'https://www.technopat.net/sosyal/eklenti/418219554-jpg.1008708/'),
+                      backgroundImage:
+                          NetworkImage(widget.contextUser?.photo ?? ""),
                     )
                   : const Icon(Icons.person, size: 27),
               label: 'Profile',

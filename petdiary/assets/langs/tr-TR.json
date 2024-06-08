@@ -86,5 +86,7 @@
   "profileLock": "Profil gizliliği",
   "petNameError": "Lütfen geçerli bir isim girin",
   "createPet": "Dost ekle",
-  "createPetToSharePost": "Gönderi paylaşmak için profilinize bir dostunuzu ekleyin"
+  "createPetToSharePost": "Gönderi paylaşmak için profilinize bir dostunuzu ekleyin",
+  "reportUser": "Kullanıcı şikayet et",
+  "followRequests" : "Takip İstekleri"
 }

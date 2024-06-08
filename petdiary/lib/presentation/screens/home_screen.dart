@@ -262,14 +262,15 @@ class _HomeScreenState extends State<HomeScreen>
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    const Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8),
                                                       child: CircleAvatar(
                                                         radius: 18,
-                                                        backgroundImage: NetworkImage(
-                                                            //! "${userModel?.photo}" add user profile photo
-                                                            "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png"),
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                                "${userModel?.photo}"),
                                                       ),
                                                     ),
                                                     TextButton(

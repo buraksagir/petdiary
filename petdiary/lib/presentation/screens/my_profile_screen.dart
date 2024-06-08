@@ -48,8 +48,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
   }
 
   int selectedPhotoIndex = -1;
-  String url =
-      "https://www.indyturk.com/sites/default/files/styles/1368x911/public/article/main_image/2019/07/01/124116-151213975.jpg?itok=mM63-S_7";
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -69,7 +68,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                 ),
               ),
             );
-          } else if (state.isLoaded) {
+          } else if (state.isLoaded && state.userListModel != null) {
             List<User>? users = state.userListModel;
             User? user = users?.first;
             String? followerCount = user?.followers?.length.toString();
@@ -95,8 +94,8 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                 Stack(
                                   alignment: Alignment.bottomLeft,
                                   children: [
-                                    Image.asset(
-                                      'assets/images/asdasd.jpg',
+                                    Image.network(
+                                      user!.photo!,
                                       fit: BoxFit.cover,
                                       height:
                                           MediaQuery.of(context).size.height /
@@ -189,9 +188,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                                                 MyUserCubit(),
                                                             child:
                                                                 EditProfileScreen(
-                                                              contextUser:
-                                                                  user ??
-                                                                      User(),
+                                                              contextUser: user,
                                                             ),
                                                           )),
                                                     ),

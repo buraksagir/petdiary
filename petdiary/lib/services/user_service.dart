@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-
 import '../data/models/user_model.dart';
 import 'network_manager.dart';
 

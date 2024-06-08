@@ -87,4 +87,6 @@ abstract class LocaleKeys {
   static const petNameError = 'petNameError';
   static const createPet = 'createPet';
   static const createPetToSharePost = 'createPetToSharePost';
+  static const reportUser = 'reportUser';
+  static const followRequests = 'followRequests';
 }

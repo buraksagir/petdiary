@@ -125,10 +125,10 @@ class _SearchScreenState extends State<SearchScreen>
                                   ),
                                 );
                               },
-                              leading: const CircleAvatar(
+                              leading: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage("assets/images/asdasd.jpg"),
+                                    NetworkImage(searchList[index].photo ?? ""),
                               ),
                               title: Text(
                                 "${state.searchUserListModel?[index].userName}",

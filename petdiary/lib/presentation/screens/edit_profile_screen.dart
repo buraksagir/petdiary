@@ -136,9 +136,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               'assets/images/app_logo.png'),
                                           fit: BoxFit.cover,
                                         )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/asdasd.jpg"),
+                                      : DecorationImage(
+                                          image: NetworkImage(user!.photo!),
                                           fit: BoxFit.cover),
                                   color: AppTheme.lightTheme.colorScheme.primary
                                       .withAlpha(40),

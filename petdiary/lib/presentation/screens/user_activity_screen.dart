@@ -45,7 +45,7 @@ class _UserActivityScreenState extends State<UserActivityScreen>
           elevation: 15,
           forceMaterialTransparency: true,
           title: Text(
-            "Follow Requests",
+            LocaleKeys.followRequests.tr(),
             style: AppTheme.lightTheme.textTheme.bodyLarge,
           ),
         ),
@@ -99,9 +99,9 @@ class _UserActivityScreenState extends State<UserActivityScreen>
                               "${followRequest.username}",
                               style: AppTheme.lightTheme.textTheme.bodySmall,
                             ),
-                            leading: const CircleAvatar(
+                            leading: CircleAvatar(
                               backgroundImage: NetworkImage(
-                                  "https://st.depositphotos.com/2166845/4512/i/450/depositphotos_45122357-stock-photo-bernese-mountain-dog.jpg"),
+                                  followRequest.profilePhoto ?? ""),
                             ),
                           );
                         },
