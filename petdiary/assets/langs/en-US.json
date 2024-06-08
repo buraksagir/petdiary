@@ -32,7 +32,7 @@
   "logout": "Log out",
   "following": "Following",
   "follower": "Follower",
-  "youHaveNoPost": "You don't have any post yet.",
+  "youHaveNoPost": "Don't have any post yet.",
   "description": "Description",
   "pickPhoto": "Choose a photo",
   "photoPicked": "Photo is selected",
@@ -88,5 +88,6 @@
   "createPet": "Add friend",
   "createPetToSharePost" : "Please add pet to share post",
   "reportUser": "Report user",
-  "followRequests": "Follow Requests"
+  "followRequests": "Follow Requests",
+  "newPetName" : "New friend name"
 }

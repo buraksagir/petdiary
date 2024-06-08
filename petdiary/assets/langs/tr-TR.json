@@ -32,7 +32,7 @@
   "logout": "Çıkış yap",
   "following": "Takip edilen",
   "follower": "Takipçi",
-  "youHaveNoPost": "Henüz bir gönderin yok.",
+  "youHaveNoPost": "Henüz bir gönderi yok.",
   "description": "Açıklama",
   "pickPhoto": "Bir fotoğraf seç",
   "photoPicked": "Fotoğraf seçildi",
@@ -88,5 +88,6 @@
   "createPet": "Dost ekle",
   "createPetToSharePost": "Gönderi paylaşmak için profilinize bir dostunuzu ekleyin",
   "reportUser": "Kullanıcı şikayet et",
-  "followRequests" : "Takip İstekleri"
+  "followRequests" : "Takip İstekleri",
+  "newPetName" : "Dostunuzun yeni adı"
 }

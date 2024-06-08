@@ -42,7 +42,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
   }
 
   Future<void> _refresh() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 3));
     context.read<MyUserCubit>().getMyUserById(widget.contextUser ?? "");
     context.read<MyPostCubit>().getOwnPost(widget.contextUser ?? "");
   }
@@ -424,26 +424,35 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                         ),
                         itemCount: petPosts.length,
                         itemBuilder: (context, index) {
+                          Post post = petPosts[index];
                           return GestureDetector(
                             onTap: () {
-                              setState(() {
-                                selectedPhotoIndex = index;
-                              });
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => PetPostDetailsScreen(
+                              //       post: post,
+                              //       index: index,
+                              //     ),
+                              //   ),
+                              // );
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        AppTheme.lightTheme.colorScheme.primary,
-                                    blurRadius: 1,
+                            child: Hero(
+                              tag: 'post_${post.id}_$index',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme
+                                          .lightTheme.colorScheme.primary,
+                                      blurRadius: 1,
+                                    ),
+                                  ],
+                                  image: DecorationImage(
+                                    image: NetworkImage(post.photo ??
+                                        "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                    fit: BoxFit.cover,
                                   ),
-                                ],
-                                image: const DecorationImage(
-                                  image: NetworkImage(
-                                      "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -625,7 +634,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                 children: <Widget>[
                   FieldWidget(
                       regController: petNameRegController,
-                      label: LocaleKeys.createPetName.tr(),
+                      label: LocaleKeys.newPetName.tr(),
                       keyboardType: TextInputType.text,
                       isPassword: false),
                 ],

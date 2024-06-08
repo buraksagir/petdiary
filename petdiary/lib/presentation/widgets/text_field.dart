@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../themes/app_theme.dart';
 
@@ -33,6 +34,10 @@ class FieldWidget extends StatelessWidget {
       width: height ?? 290,
       height: width ?? 80,
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(
+              RegExp(r'[a-zA-ZğüşöçıĞÜŞÖÇİ\s1-9@.]')),
+        ],
         onChanged: onChanged,
         style: AppTheme.lightTheme.textTheme.bodyMedium,
         autovalidateMode: AutovalidateMode.always,

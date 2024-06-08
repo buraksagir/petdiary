@@ -14,6 +14,8 @@ abstract class IPostService {
   Future<List<Post>> getPostByPostId(String postId);
   Future<void> createPost(
       File? photo, String text, String contextId, String? petId);
+
+  Future<void> deletePost(String postId);
 }
 
 class PostService extends IPostService {
@@ -104,5 +106,11 @@ class PostService extends IPostService {
     } catch (e) {
       throw Exception('Error while creating post: $e');
     }
+  }
+
+  @override
+  Future<void> deletePost(String postId) {
+    // TODO: implement deletePost
+    throw UnimplementedError();
   }
 }

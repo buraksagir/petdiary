@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'shared_preferences.dart';
 
 class NetworkManager {
-  static final Dio _dio = Dio(BaseOptions(baseUrl: 'https://petdiary.net:81'));
+  static final Dio _dio = Dio(BaseOptions(baseUrl: 'http://203.161.50.145:81'));
 
   static final SharedPreferencesUtils _sharedPreferencesUtils =
       SharedPreferencesUtils();

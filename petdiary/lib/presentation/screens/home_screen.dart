@@ -48,12 +48,6 @@ class _HomeScreenState extends State<HomeScreen>
   String? isCommentValid;
   String? postPetName;
 
-  Widget mediaWidget = Image.network(
-    //! Will be deleted
-    "https://sunshine-photo.s3.us-east-2.amazonaws.com/wp-content/uploads/sunshine/2023/01/05235009/Hefe-Lavender-Print-scaled.jpg",
-    fit: BoxFit.cover,
-  );
-
   @override
   void initState() {
     super.initState();
@@ -333,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                       child: PopupMenuButton(
                                                         onSelected: (value) {
                                                           SnackBar
-                                                              wrongPasswordSnackBar =
+                                                              reportSnackBar =
                                                               MySnackBar()
                                                                   .getSnackBar(
                                                                       "User successfully reported");
@@ -342,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                       .of(
                                                                           context)
                                                                   .showSnackBar(
-                                                                      wrongPasswordSnackBar)
+                                                                      reportSnackBar)
                                                               : '';
                                                         }, //! BURAYA BAK TEXTLERİ GLOBALLEŞTİR
                                                         itemBuilder:
@@ -350,11 +344,12 @@ class _HomeScreenState extends State<HomeScreen>
                                                                     context) =>
                                                                 <PopupMenuEntry<
                                                                     String>>[
-                                                          const PopupMenuItem<
-                                                              String>(
+                                                          PopupMenuItem<String>(
                                                             value: 'report',
                                                             child: Text(
-                                                                'Report user'),
+                                                                LocaleKeys
+                                                                    .reportUser
+                                                                    .tr()),
                                                           ),
                                                         ],
                                                       ),
@@ -373,7 +368,10 @@ class _HomeScreenState extends State<HomeScreen>
                                                             .size
                                                             .width,
                                                   ),
-                                                  child: mediaWidget,
+                                                  child: Image.network(
+                                                    post.photo ?? "",
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                                 MyDivider().getDivider(),
                                                 Text(
@@ -439,8 +437,9 @@ class _HomeScreenState extends State<HomeScreen>
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              left: 180.0),
-                                                      child: newMethod(post),
+                                                              left: 150.0,
+                                                              right: 10),
+                                                      child: createDate(post),
                                                     )
                                                   ],
                                                 )
@@ -489,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Text newMethod(Post post) {
+  Text createDate(Post post) {
     return Text(
       _formatDate(post.createDate!), // Call the formatting function
       style: AppTheme.lightTheme.textTheme.bodySmall!.copyWith(
@@ -630,6 +629,12 @@ class _HomeScreenState extends State<HomeScreen>
     context.read<FollowCubit>().getUsersFollowRequests(widget.contextUserId);
   }
 
+  Future<void> _refreshComments(String postId) async {
+    //* Refresh method
+    await Future.delayed(const Duration(seconds: 2));
+    context.read<PostCubit>().getPostByPostId(postId);
+  }
+
   void _showCommentsModal(BuildContext context, Post? post,
       TextEditingController commentController) {
     //* Comment sheet
@@ -701,8 +706,8 @@ class _HomeScreenState extends State<HomeScreen>
                             itemBuilder: (context, index) {
                               return ListTile(
                                 leading: const CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "https://e7.pngegg.com/pngimages/893/201/png-clipart-arrow-down-android-computer-icons-profile-silhouette-black-thumbnail.png"),
+                                  backgroundImage:
+                                      NetworkImage("post.comments"), //!
                                 ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -775,6 +780,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 });
 
                                 commentController.clear();
+                                _refreshComments(post.id.toString());
                               }
                             },
                             child: const Icon(Icons.send_rounded),

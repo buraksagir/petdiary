@@ -51,8 +51,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   XFile? _pickedFile;
   CroppedFile? _croppedFile;
-
+  bool isPasswordEntered = false;
   bool? profileLock;
+  bool? isCroppedFile;
+  bool? isProfilePhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -127,29 +129,67 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               onTap: () {
                                 _uploadImage();
                               },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: user?.photo == null
-                                      ? null //! fdsafgsdgdfgdsfg
-                                      : DecorationImage(
+                              child: Builder(builder: (context) {
+                                if (_croppedFile == null &&
+                                    widget.contextUser!.photo != null) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
                                           image:
                                               NetworkImage(user!.photo ?? ""),
                                           fit: BoxFit.cover),
-                                  color: AppTheme.lightTheme.colorScheme.primary
-                                      .withAlpha(40),
-                                ),
-                                child: user?.photo == null
-                                    ? Center(
+                                      color: AppTheme
+                                          .lightTheme.colorScheme.primary
+                                          .withAlpha(40),
+                                    ),
+                                  );
+                                } else if (_croppedFile != null &&
+                                    widget.contextUser!.photo == null) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: FileImage(
+                                              File(_croppedFile!.path)),
+                                          fit: BoxFit.cover),
+                                      color: AppTheme
+                                          .lightTheme.colorScheme.primary
+                                          .withAlpha(40),
+                                    ),
+                                  );
+                                } else if (_croppedFile != null &&
+                                    widget.contextUser!.photo != null) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: FileImage(
+                                              File(_croppedFile!.path)),
+                                          fit: BoxFit.cover),
+                                      color: AppTheme
+                                          .lightTheme.colorScheme.primary
+                                          .withAlpha(40),
+                                    ),
+                                  );
+                                } else {
+                                  return Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppTheme
+                                            .lightTheme.colorScheme.primary
+                                            .withAlpha(40),
+                                      ),
+                                      child: Center(
                                         child: Icon(
                                           Icons.add_a_photo,
                                           size: 50,
                                           color: AppTheme
                                               .lightTheme.colorScheme.primary,
                                         ),
-                                      )
-                                    : null,
-                              ),
+                                      ));
+                                }
+                              }),
                             ),
                           ),
                         ],
@@ -223,6 +263,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             keyboardType: TextInputType.text,
                             regController: passwordRegController,
                             label: LocaleKeys.enterPassword.tr(),
+                            onChanged: (p0) {
+                              if (p0.length > 3) {
+                                setState(() {
+                                  isPasswordEntered = true;
+                                });
+                              }
+                            },
                           ),
                         ),
                       ),
@@ -285,11 +332,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               },
                               child: BlocBuilder<LoginCubit, LoginState>(
                                 builder: (context, state) {
-                                  bool isActive =
-                                      passwordRegController.text.length > 3;
                                   return ElevatedButton(
                                     style: ButtonStyle(
-                                      backgroundColor: isActive
+                                      backgroundColor: isPasswordEntered
                                           ? MaterialStatePropertyAll(AppTheme
                                               .lightTheme.colorScheme.primary)
                                           : MaterialStatePropertyAll(AppTheme
@@ -297,7 +342,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               .colorScheme
                                               .background),
                                     ),
-                                    onPressed: isActive
+                                    onPressed: isPasswordEntered
                                         ? () {
                                             save(context);
                                           }
@@ -305,7 +350,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     child: Text(
                                       LocaleKeys.save.tr(),
                                       style: TextStyle(
-                                        color: isActive
+                                        color: isPasswordEntered
                                             ? AppTheme.lightTheme.colorScheme
                                                 .secondary
                                             : AppTheme
@@ -414,8 +459,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (pickedFile != null) {
       setState(() {
         _pickedFile = pickedFile;
-        _cropImage();
       });
+      _cropImage();
     }
   }
 

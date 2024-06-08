@@ -26,12 +26,17 @@ class SingleUserCubit extends Cubit<SingleUserState> {
   late final UserService userService = UserService();
 
   Future<void> getUserById(String userId) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, isPostUserLoading: true));
     try {
       final user = await userService.getUserById(userId);
-      emit(state.copyWith(userListModel: user, isLoaded: true));
+      emit(state.copyWith(
+          userListModel: user,
+          isLoaded: true,
+          postUserListModel: user,
+          isPostUserLoaded: true));
     } catch (e) {
-      emit(state.copyWith(isLoading: false));
+      emit(state.copyWith(
+          isLoading: false, isPostUserLoaded: false, isPostUserLoading: false));
     }
   }
 

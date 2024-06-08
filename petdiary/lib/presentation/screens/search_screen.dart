@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petdiary/cubit/comment/comment_cubit.dart';
 
 import '../../cubit/follow/follow_cubit.dart';
+import '../../cubit/like/like_cubit.dart';
 import '../../cubit/post/post_cubit.dart';
 import '../../cubit/user/user_cubit.dart';
 import '../../cubit/user/user_cubit_state.dart';
@@ -114,7 +116,14 @@ class _SearchScreenState extends State<SearchScreen>
                                             ),
                                             BlocProvider(
                                               create: (context) => PostCubit(),
-                                            )
+                                            ),
+                                            BlocProvider(
+                                              create: (context) => LikeCubit(),
+                                            ),
+                                            BlocProvider(
+                                              create: (context) =>
+                                                  CommentCubit(),
+                                            ),
                                           ],
                                           child: ProfileScreen(
                                             contextUser: widget.contextUser,
@@ -127,8 +136,11 @@ class _SearchScreenState extends State<SearchScreen>
                               },
                               leading: CircleAvatar(
                                 radius: 20,
-                                backgroundImage:
-                                    NetworkImage(searchList[index].photo ?? ""),
+                                backgroundImage: searchList[index].photo != null
+                                    ? NetworkImage(
+                                        searchList[index].photo ?? "")
+                                    : const NetworkImage(
+                                        "https://e7.pngegg.com/pngimages/893/201/png-clipart-arrow-down-android-computer-icons-profile-silhouette-black-thumbnail.png"),
                               ),
                               title: Text(
                                 "${state.searchUserListModel?[index].userName}",

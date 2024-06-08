@@ -20,7 +20,7 @@ class PetService extends IPetService {
     try {
       final response =
           await dio.post('/pets', data: {'userId': userId, 'petName': petName});
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         log("Pet created");
       }
     } catch (e) {

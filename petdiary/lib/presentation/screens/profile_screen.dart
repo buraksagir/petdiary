@@ -3,6 +3,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petdiary/cubit/comment/comment_cubit.dart';
+import 'package:petdiary/cubit/like/like_cubit.dart';
 
 import '../../cubit/follow/follow_cubit.dart';
 import '../../cubit/follow/follow_cubit_state.dart';
@@ -15,6 +17,8 @@ import '../../data/models/user_model.dart';
 import '../../generated/locale_keys.g.dart';
 import '../../services/shared_preferences.dart';
 import '../themes/app_theme.dart';
+import '../widgets/divider.dart';
+import 'pet_post_detail_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? selectedUserId;
@@ -300,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 ),
                                 _buildDivider(),
-                                buildPetSection(pets),
+                                buildPetSection(pets, user),
                               ],
                             ),
                           ),
@@ -349,11 +353,11 @@ class _ProfileScreenState extends State<ProfileScreen>
           ],
         ),
         height: 40,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width / 1.2,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         alignment: Alignment.center,
         child: Text(
-          selectedPet?.petName ?? "Gönderilerini görmek istediğin peti seç",
+          selectedPet?.petName ?? LocaleKeys.selectPet.tr(),
           style: TextStyle(
             color: AppTheme.lightTheme.colorScheme.onPrimary,
             fontSize: 12,
@@ -363,8 +367,8 @@ class _ProfileScreenState extends State<ProfileScreen>
         ),
       );
     } else {
-      return const Text(
-        "Gönderilerini görmek istediğin peti seç",
+      return Text(
+        LocaleKeys.selectPet.tr(),
       );
     }
   }
@@ -449,65 +453,60 @@ class _ProfileScreenState extends State<ProfileScreen>
     });
   }
 
-  Widget buildPetSection(List<Pet>? pets) {
+  Widget buildPetSection(List<Pet>? pets, User user) {
     //! PET SECTION
-
-    if (profileLock == false || isFollowing == true) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8),
-        child: Column(
-          children: [
-            if (pets != null && pets.isNotEmpty)
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 6,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: pets.length,
-                  itemBuilder: (context, index) {
-                    Pet pet = pets[index];
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedPet = pet;
-                        });
-                      },
-                      child: Container(
-                        width: 100,
-                        margin: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: Column(
+        children: [
+          if (pets != null && pets.isNotEmpty)
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 6,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: pets.length,
+                itemBuilder: (context, index) {
+                  Pet pet = pets[index];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedPet = pet;
+                      });
+                    },
+                    child: Container(
+                      width: 100,
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.lightTheme.colorScheme.primary,
+                              color: AppTheme.lightTheme.colorScheme.primary
+                                  .withAlpha(100),
                               blurRadius: 1,
                             ),
                           ],
                           image: const DecorationImage(
-                            image: NetworkImage(
-                                "https://static3.depositphotos.com/1006065/229/i/450/depositphotos_2299392-stock-photo-cat.jpg"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                              image: AssetImage('assets/images/app_logo.png'),
+                              scale: 4)),
+                    ),
+                  );
+                },
               ),
-            _buildDivider(),
-            buildPetBar(context),
-            _buildDivider(),
-            _buildPetPosts(),
-          ],
-        ),
-      );
-    } else if (isFollowing == false && profileLock == true) {
-      return SizedBox(height: 200, child: const Icon(Icons.lock_outlined));
-    } else {
-      return const SizedBox();
-    }
+            ),
+          MyDivider().getDivider(),
+          Row(
+            children: [
+              buildPetBar(context),
+            ],
+          ),
+          MyDivider().getDivider(),
+          _buildPetPosts(user),
+        ],
+      ),
+    );
   }
 
-  Widget _buildPetPosts() {
+  Widget _buildPetPosts(User user) {
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, postState) {
         if (postState.isLoaded) {
@@ -531,31 +530,56 @@ class _ProfileScreenState extends State<ProfileScreen>
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisExtent: 200,
-                          crossAxisSpacing: 5.0,
-                          mainAxisSpacing: 5.0,
+                          crossAxisSpacing: 4.0,
+                          mainAxisSpacing: 4.0,
                         ),
                         itemCount: petPosts.length,
                         itemBuilder: (context, index) {
+                          Post post = petPosts[index];
                           return GestureDetector(
                             onTap: () {
-                              setState(() {
-                                selectedPhotoIndex = index;
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        AppTheme.lightTheme.colorScheme.primary,
-                                    blurRadius: 1,
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider(
+                                        create: (context) => LikeCubit(),
+                                      ),
+                                      BlocProvider(
+                                        create: (context) => SingleUserCubit(),
+                                      ),
+                                      BlocProvider(
+                                        create: (context) => CommentCubit(),
+                                      ),
+                                    ],
+                                    child: PetPostDetailsScreen(
+                                      user: user,
+                                      contextUserId:
+                                          widget.contextUser.toString(),
+                                      post: post,
+                                      index: index,
+                                    ),
                                   ),
-                                ],
-                                image: const DecorationImage(
-                                  image: NetworkImage(
-                                      "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
+                            child: Hero(
+                              tag: 'post_${post.id}_$index',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme
+                                          .lightTheme.colorScheme.primary,
+                                      blurRadius: 1,
+                                    ),
+                                  ],
+                                  image: DecorationImage(
+                                    image: NetworkImage(post.photo ??
+                                        "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),

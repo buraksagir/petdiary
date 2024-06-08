@@ -199,6 +199,11 @@ class _PostShareScreenState extends State<PostShareScreen> {
         _image = image;
         file = File(image.path);
       });
+
+      // Resmin yükleme oranını hesapla
+      final imageSize = await file!.length();
+      final percentLoaded = imageSize / file!.lengthSync() * 100;
+      log('Yükleme oranı: $percentLoaded%');
     } else {
       Center(
         child: SizedBox(
