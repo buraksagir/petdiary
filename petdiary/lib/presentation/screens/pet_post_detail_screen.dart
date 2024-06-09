@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../cubit/comment/comment_cubit.dart';
 import '../../cubit/comment/comment_cubit_state.dart';
-import '../../cubit/follow/follow_cubit.dart';
 import '../../cubit/like/like_cubit.dart';
 import '../../cubit/like/like_cubit_state.dart';
 import '../../cubit/post/post_cubit.dart';
@@ -17,7 +16,6 @@ import '../themes/app_theme.dart';
 import '../widgets/divider.dart';
 import '../widgets/snackbar.dart';
 import '../widgets/text_field.dart';
-import 'profile_screen.dart';
 
 class PetPostDetailsScreen extends StatefulWidget {
   const PetPostDetailsScreen(
@@ -41,6 +39,11 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
   IconData iconData = Icons.favorite;
   IconData iconData2 = Icons.favorite_border_outlined;
   TextEditingController commentController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<CommentCubit>().getCommentsByPostId(widget.post.id.toString());
+  }
 
   @override
   Widget build(BuildContext realContext) {
@@ -221,7 +224,13 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                                         context, post, commentController);
                                   },
                                 ),
-                                Text("${post.comments?.length}"),
+                                BlocBuilder<CommentCubit, CommentState>(
+                                  builder: (context, state) {
+                                    return Text(
+                                        state.comments?.length.toString() ??
+                                            "0");
+                                  },
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 150.0, right: 10),
@@ -339,7 +348,7 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                             },
                           ),
                         ),
-                      if (state.isLoaded && anyComment)
+                      if (state.isLoaded && state.comments != null)
                         Container(
                           height: 290,
                           padding: const EdgeInsets.all(12.0),
@@ -349,8 +358,7 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                             itemBuilder: (context, index) {
                               return ListTile(
                                 leading: const CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage("post.comments"), //!
+                                  backgroundImage: NetworkImage(""), //!
                                 ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,7 +381,7 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                             },
                           ),
                         ),
-                      if (state.isLoaded && !anyComment)
+                      if (state.isLoaded && state.comments == null)
                         Container(
                           height: 300,
                           alignment: Alignment.center,
@@ -417,13 +425,9 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                                     widget.contextUserId.toString(),
                                     post!.id.toString(),
                                     commentController.text);
-                                setState(() {
-                                  post.comments!.add(Comments(
-                                      comment: commentController.text));
-                                });
 
                                 commentController.clear();
-                                _refreshComments(post.id.toString());
+                                _refreshComments(post.id.toString(), post);
                               }
                             },
                             child: const Icon(Icons.send_rounded),
@@ -442,10 +446,10 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
     );
   }
 
-  Future<void> _refreshComments(String postId) async {
+  Future<void> _refreshComments(String postId, Post post) async {
     //* Refresh method
-    await Future.delayed(const Duration(seconds: 2));
-    context.read<PostCubit>().getPostByPostId(postId);
+    Navigator.pop(context); // Close the comments modal
+    _showCommentsModal(context, post, commentController);
   }
 
   String? validateComment(String? value) {
