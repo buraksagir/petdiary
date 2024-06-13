@@ -89,5 +89,10 @@
   "createPetToSharePost": "Gönderi paylaşmak için profilinize bir dostunuzu ekleyin",
   "reportUser": "Kullanıcı şikayet et",
   "followRequests" : "Takip İstekleri",
-  "newPetName" : "Dostunuzun yeni adı"
+  "newPetName" : "Dostunuzun yeni adı",
+  "deletePost" : "Sil",
+  "noDescription": "Açıklama yok",
+  "selectPetForPost": "Dost seçin",
+  "postDetails" : "Gönderi Detayları"
+
 }

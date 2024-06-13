@@ -70,7 +70,7 @@ class _PostShareScreenState extends State<PostShareScreen> {
                 }).toList();
 
                 return DropdownButton<int>(
-                  hint: const Text("Select Pet"),
+                  hint: Text(LocaleKeys.selectPetForPost.tr()),
                   value: selectedPetId,
                   items: dropdownItems,
                   onChanged: (int? newValue) {

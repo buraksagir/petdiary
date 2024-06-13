@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petdiary/presentation/widgets/snackbar.dart';
 import 'package:petdiary/presentation/widgets/text_field.dart';
+import '../../cubit/comment/comment_cubit.dart';
+import '../../cubit/like/like_cubit.dart';
 import '../../cubit/pet/pet_cubit.dart';
 import '../../cubit/pet/pet_cubit_state.dart';
 import '../../cubit/post/post_cubit.dart';
@@ -18,6 +20,7 @@ import '../themes/app_theme.dart';
 import '../widgets/divider.dart';
 import 'auth/sign_in_screen.dart';
 import 'edit_profile_screen.dart';
+import 'pet_post_detail_screen.dart';
 
 class MyProfileScreen extends StatefulWidget {
   final String? contextUser;
@@ -28,7 +31,7 @@ class MyProfileScreen extends StatefulWidget {
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
   SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils();
@@ -212,12 +215,12 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                     surfaceTintColor: AppTheme
                                         .lightTheme.colorScheme.secondary,
                                     itemBuilder: (context) => [
-                                      PopupMenuItem(
-                                        value: 'theme',
-                                        child: Text(LocaleKeys.changeTheme.tr(),
-                                            style:
-                                                const TextStyle(fontSize: 12)),
-                                      ),
+                                      // PopupMenuItem(
+                                      //   value: 'theme',
+                                      //   child: Text(LocaleKeys.changeTheme.tr(),
+                                      //       style:
+                                      //           const TextStyle(fontSize: 12)),
+                                      // ),
                                       PopupMenuItem(
                                         value: 'language',
                                         child: Text(
@@ -282,7 +285,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                     ),
                                   ),
                                   MyDivider().getDivider(),
-                                  buildPetSection(pets),
+                                  buildPetSection(pets, user),
                                 ],
                               ),
                             ),
@@ -338,7 +341,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
     );
   }
 
-  Widget buildPetSection(List<Pet>? pets) {
+  Widget buildPetSection(List<Pet>? pets, User user) {
     //! PET SECTION
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
@@ -389,13 +392,13 @@ class _MyProfileScreenState extends State<MyProfileScreen>
             ],
           ),
           MyDivider().getDivider(),
-          _buildPetPosts(),
+          _buildPetPosts(user),
         ],
       ),
     );
   }
 
-  Widget _buildPetPosts() {
+  Widget _buildPetPosts(User user) {
     return BlocBuilder<MyPostCubit, MyPostState>(
       builder: (context, postState) {
         if (postState.isLoaded) {
@@ -427,32 +430,48 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                           Post post = petPosts[index];
                           return GestureDetector(
                             onTap: () {
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => PetPostDetailsScreen(
-                              //       post: post,
-                              //       index: index,
-                              //     ),
-                              //   ),
-                              // );
-                            },
-                            child: Hero(
-                              tag: 'post_${post.id}_$index',
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppTheme
-                                          .lightTheme.colorScheme.primary,
-                                      blurRadius: 1,
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider(
+                                        create: (context) => LikeCubit(),
+                                      ),
+                                      BlocProvider(
+                                        create: (context) => SingleUserCubit(),
+                                      ),
+                                      BlocProvider(
+                                        create: (context) => CommentCubit(),
+                                      ),
+                                      BlocProvider(
+                                        create: (context) => MyPostCubit(),
+                                      ),
+                                    ],
+                                    child: PetPostDetailsScreen(
+                                      user: user,
+                                      contextUserId:
+                                          widget.contextUser.toString(),
+                                      post: post,
+                                      index: index,
                                     ),
-                                  ],
-                                  image: DecorationImage(
-                                    image: NetworkImage(post.photo ??
-                                        "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                                    fit: BoxFit.cover,
                                   ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        AppTheme.lightTheme.colorScheme.primary,
+                                    blurRadius: 1,
+                                  ),
+                                ],
+                                image: DecorationImage(
+                                  image: NetworkImage(post.photo ??
+                                      "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

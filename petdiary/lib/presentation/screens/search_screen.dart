@@ -135,12 +135,13 @@ class _SearchScreenState extends State<SearchScreen>
                                 );
                               },
                               leading: CircleAvatar(
+                                backgroundColor: Colors.transparent,
                                 radius: 20,
                                 backgroundImage: searchList[index].photo != null
                                     ? NetworkImage(
                                         searchList[index].photo ?? "")
                                     : const NetworkImage(
-                                        "https://e7.pngegg.com/pngimages/893/201/png-clipart-arrow-down-android-computer-icons-profile-silhouette-black-thumbnail.png"),
+                                        "https://i.hizliresim.com/nxttoxc.png"),
                               ),
                               title: Text(
                                 "${state.searchUserListModel?[index].userName}",

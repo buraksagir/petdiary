@@ -109,8 +109,14 @@ class PostService extends IPostService {
   }
 
   @override
-  Future<void> deletePost(String postId) {
-    // TODO: implement deletePost
-    throw UnimplementedError();
+  Future<void> deletePost(String postId) async {
+    try {
+      final response = await dio.delete("/posts/$postId");
+      if (response.statusCode == 200) {
+        log('succesfully deleted');
+      }
+    } catch (e) {
+      log('$e');
+    }
   }
 }

@@ -89,5 +89,10 @@
   "createPetToSharePost" : "Please add pet to share post",
   "reportUser": "Report user",
   "followRequests": "Follow Requests",
-  "newPetName" : "New friend name"
+  "newPetName" : "New friend name",
+  "deletePost": "Delete",
+  "noDescription" : "No Description",
+  "selectPetForPost": "Select friend",
+  "postDetails" : "Post Details"
+  
 }

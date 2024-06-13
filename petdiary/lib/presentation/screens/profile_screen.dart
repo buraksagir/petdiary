@@ -459,7 +459,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Column(
         children: [
-          if (pets != null && pets.isNotEmpty)
+          if (pets != null && pets.isNotEmpty && isFollowing == true)
             SizedBox(
               height: MediaQuery.of(context).size.height / 6,
               child: ListView.builder(
@@ -494,13 +494,22 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
           MyDivider().getDivider(),
-          Row(
-            children: [
-              buildPetBar(context),
-            ],
-          ),
-          MyDivider().getDivider(),
-          _buildPetPosts(user),
+          isFollowing == true
+              ? Row(
+                  children: [
+                    buildPetBar(context),
+                  ],
+                )
+              : const SizedBox(),
+          isFollowing == true || profileLock == false
+              ? MyDivider().getDivider()
+              : const SizedBox(),
+          isFollowing == true || profileLock == false
+              ? _buildPetPosts(user)
+              : SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: const Icon(Icons.lock_outlined),
+                )
         ],
       ),
     );
@@ -551,6 +560,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       BlocProvider(
                                         create: (context) => CommentCubit(),
                                       ),
+                                      BlocProvider(
+                                        create: (context) => MyPostCubit(),
+                                      )
                                     ],
                                     child: PetPostDetailsScreen(
                                       user: user,
@@ -563,23 +575,20 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 ),
                               );
                             },
-                            child: Hero(
-                              tag: 'post_${post.id}_$index',
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppTheme
-                                          .lightTheme.colorScheme.primary,
-                                      blurRadius: 1,
-                                    ),
-                                  ],
-                                  image: DecorationImage(
-                                    image: NetworkImage(post.photo ??
-                                        "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                                    fit: BoxFit.cover,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        AppTheme.lightTheme.colorScheme.primary,
+                                    blurRadius: 1,
                                   ),
+                                ],
+                                image: DecorationImage(
+                                  image: NetworkImage(post.photo ??
+                                      "https://images.pexels.com/photos/325407/pexels-photo-325407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

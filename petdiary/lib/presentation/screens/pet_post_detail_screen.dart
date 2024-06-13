@@ -2,9 +2,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petdiary/cubit/post/post_cubit_state.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../cubit/comment/comment_cubit.dart';
 import '../../cubit/comment/comment_cubit_state.dart';
+import '../../cubit/follow/follow_cubit.dart';
 import '../../cubit/like/like_cubit.dart';
 import '../../cubit/like/like_cubit_state.dart';
 import '../../cubit/post/post_cubit.dart';
@@ -16,6 +18,7 @@ import '../themes/app_theme.dart';
 import '../widgets/divider.dart';
 import '../widgets/snackbar.dart';
 import '../widgets/text_field.dart';
+import 'profile_screen.dart';
 
 class PetPostDetailsScreen extends StatefulWidget {
   const PetPostDetailsScreen(
@@ -51,7 +54,8 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
       create: (context) => SingleUserCubit(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Post Details'),
+          backgroundColor: Colors.transparent,
+          title: Text(LocaleKeys.postDetails.tr()),
         ),
         body: Hero(
           tag: 'post_${widget.post.id}_${widget.index}',
@@ -102,31 +106,31 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                                       AppTheme.lightTheme.textTheme.bodyMedium,
                                 ),
                                 onPressed: () {
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: ((context) => MultiBlocProvider(
-                                  //           providers: [
-                                  //             BlocProvider(
-                                  //               create: (context) =>
-                                  //                   SingleUserCubit(),
-                                  //             ),
-                                  //             BlocProvider(
-                                  //               create: (context) =>
-                                  //                   FollowCubit(),
-                                  //             ),
-                                  //             BlocProvider(
-                                  //               create: (context) =>
-                                  //                   PostCubit(),
-                                  //             )
-                                  //           ],
-                                  //           child: ProfileScreen(
-                                  //             contextUser: widget.contextUserId,
-                                  //             selectedUserId:
-                                  //                 post.userId.toString(),
-                                  //           ),
-                                  //         )),
-                                  //   ),
-                                  // );
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: ((context) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider(
+                                                create: (context) =>
+                                                    SingleUserCubit(),
+                                              ),
+                                              BlocProvider(
+                                                create: (context) =>
+                                                    FollowCubit(),
+                                              ),
+                                              BlocProvider(
+                                                create: (context) =>
+                                                    PostCubit(),
+                                              )
+                                            ],
+                                            child: ProfileScreen(
+                                              contextUser: widget.contextUserId,
+                                              selectedUserId:
+                                                  post.userId.toString(),
+                                            ),
+                                          )),
+                                    ),
+                                  );
                                 },
                               ),
                               Builder(builder: (context) {
@@ -141,23 +145,47 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                               Padding(
                                 //* Report button
                                 padding: const EdgeInsets.only(left: 160.0),
-                                child: PopupMenuButton(
-                                  onSelected: (value) {
-                                    SnackBar reportSnackBar = MySnackBar()
-                                        .getSnackBar(
-                                            "User successfully reported");
-                                    value == 'report'
-                                        ? ScaffoldMessenger.of(context)
-                                            .showSnackBar(reportSnackBar)
-                                        : '';
-                                  }, //! BURAYA BAK TEXTLERİ GLOBALLEŞTİR
-                                  itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry<String>>[
-                                    PopupMenuItem<String>(
-                                      value: 'report',
-                                      child: Text(LocaleKeys.reportUser.tr()),
-                                    ),
-                                  ],
+                                child: BlocBuilder<MyPostCubit, MyPostState>(
+                                  builder: (context, state) {
+                                    return PopupMenuButton(
+                                      onSelected: (value) {
+                                        SnackBar reportSnackBar = MySnackBar()
+                                            .getSnackBar(
+                                                "User successfully reported");
+                                        value == 'report'
+                                            ? ScaffoldMessenger.of(context)
+                                                .showSnackBar(reportSnackBar)
+                                            : '';
+
+                                        value == 'deletePost'
+                                            ? {
+                                                context
+                                                    .read<MyPostCubit>()
+                                                    .deletePost(
+                                                        post.id.toString()),
+                                                Navigator.of(context).pop()
+                                              }
+                                            : '';
+                                      }, //! BURAYA BAK TEXTLERİ GLOBALLEŞTİR
+                                      itemBuilder: (BuildContext context) =>
+                                          <PopupMenuEntry<String>>[
+                                        if (post.userId.toString() !=
+                                            widget.contextUserId)
+                                          PopupMenuItem<String>(
+                                            value: 'report',
+                                            child: Text(
+                                                LocaleKeys.reportUser.tr()),
+                                          ),
+                                        if (post.userId.toString() ==
+                                            widget.contextUserId)
+                                          PopupMenuItem<String>(
+                                            value: 'deletePost',
+                                            child: Text(
+                                                LocaleKeys.deletePost.tr()),
+                                          ),
+                                      ],
+                                    );
+                                  },
                                 ),
                               ),
                             ],
@@ -305,8 +333,6 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                     .getCommentsByPostId(post!.id.toString());
               }
 
-              bool anyComment = state.comments?.isNotEmpty ?? false;
-
               return SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -357,9 +383,6 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                             itemCount: state.comments?.length ?? 0,
                             itemBuilder: (context, index) {
                               return ListTile(
-                                leading: const CircleAvatar(
-                                  backgroundImage: NetworkImage(""), //!
-                                ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -375,6 +398,7 @@ class _PetPostDetailsScreenState extends State<PetPostDetailsScreen> {
                                       style: AppTheme
                                           .lightTheme.textTheme.bodySmall,
                                     ),
+                                    MyDivider().getDivider()
                                   ],
                                 ),
                               );

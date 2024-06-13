@@ -25,7 +25,7 @@ class TextFieldValidators extends ITextFieldValidators {
 
   @override
   String? validateUsername(String? value) {
-    if (value!.isEmpty || value.length < 3) {
+    if (value!.isEmpty || value.length < 3 || value.length > 14) {
       return LocaleKeys.validateUsername.tr();
     }
     return null;
@@ -49,7 +49,7 @@ class TextFieldValidators extends ITextFieldValidators {
 
   @override
   String? validateName(String? value) {
-    if (value!.isEmpty || value.length <= 1) {
+    if (value!.isEmpty || value.length <= 1 || value.length > 15) {
       return LocaleKeys.validateName.tr();
     }
     return null;
@@ -57,7 +57,7 @@ class TextFieldValidators extends ITextFieldValidators {
 
   @override
   String? validateSurname(String? value) {
-    if (value!.isEmpty || value.length <= 1) {
+    if (value!.isEmpty || value.length <= 1 || value.length > 14) {
       return LocaleKeys.validateSurname.tr();
     }
     return null;
@@ -73,7 +73,7 @@ class TextFieldValidators extends ITextFieldValidators {
 
   @override
   String? validatePhone(String? value) {
-    if (!isNumeric(value!) || value.length < 6) {
+    if (!isNumeric(value!) || value.length < 6 || value.length > 13) {
       return LocaleKeys.validatePhone.tr();
     }
     return null;

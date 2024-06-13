@@ -377,7 +377,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                 Text(
                                                   post.text!.isNotEmpty
                                                       ? post.text!
-                                                      : 'No Description',
+                                                      : LocaleKeys.noDescription
+                                                          .tr(),
                                                   style: AppTheme.lightTheme
                                                       .textTheme.bodySmall,
                                                   maxLines: 1,
@@ -437,8 +438,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              left: 150.0,
-                                                              right: 10),
+                                                              left: 140.0,
+                                                              right: 15),
                                                       child: createDate(post),
                                                     )
                                                   ],
@@ -705,10 +706,6 @@ class _HomeScreenState extends State<HomeScreen>
                             itemCount: state.comments?.length ?? 0,
                             itemBuilder: (context, index) {
                               return ListTile(
-                                leading: const CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage("post.comments"), //!
-                                ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -724,6 +721,7 @@ class _HomeScreenState extends State<HomeScreen>
                                       style: AppTheme
                                           .lightTheme.textTheme.bodySmall,
                                     ),
+                                    MyDivider().getDivider()
                                   ],
                                 ),
                               );

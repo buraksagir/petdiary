@@ -68,4 +68,15 @@ class MyPostCubit extends Cubit<MyPostState> {
       emit(state.copyWith(isPosted: false));
     }
   }
+
+  Future<void> deletePost(String postId) async {
+    emit(state.copyWith(isDeleting: true));
+
+    try {
+      await postService.deletePost(postId);
+      emit(state.copyWith(isDeleted: true, isDeleting: false));
+    } catch (e) {
+      emit(state.copyWith(isDeleting: false, isDeleted: false));
+    }
+  }
 }

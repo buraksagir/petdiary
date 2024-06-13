@@ -8,6 +8,8 @@ class MyPostState extends Equatable {
   final List<Post>? userPostModel;
   final List<FollowingPost>? followingPostModel;
   final bool isPosted;
+  final bool isDeleting;
+  final bool isDeleted;
 
   const MyPostState(
       {this.isLoading = false,
@@ -15,7 +17,9 @@ class MyPostState extends Equatable {
       this.postModel,
       this.userPostModel,
       this.followingPostModel,
-      this.isPosted = false});
+      this.isPosted = false,
+      this.isDeleting = false,
+      this.isDeleted = false});
 
   @override
   List<Object?> get props => [
@@ -24,24 +28,29 @@ class MyPostState extends Equatable {
         isLoaded,
         followingPostModel,
         userPostModel,
-        isPosted
+        isPosted,
+        isDeleting,
+        isDeleted
       ];
 
-  MyPostState copyWith({
-    bool? isLoading,
-    List<Post>? postModel,
-    bool? isLoaded,
-    List<Post>? userPostModel,
-    List<FollowingPost>? followingPostModel,
-    bool? isPosted,
-  }) {
+  MyPostState copyWith(
+      {bool? isLoading,
+      List<Post>? postModel,
+      bool? isLoaded,
+      List<Post>? userPostModel,
+      List<FollowingPost>? followingPostModel,
+      bool? isPosted,
+      bool? isDeleting,
+      bool? isDeleted}) {
     return MyPostState(
         isLoading: isLoading ?? false,
         postModel: postModel ?? this.postModel,
         isLoaded: isLoaded ?? false,
         userPostModel: userPostModel ?? this.userPostModel,
         followingPostModel: followingPostModel ?? this.followingPostModel,
-        isPosted: isPosted ?? false);
+        isPosted: isPosted ?? false,
+        isDeleting: isDeleting ?? false,
+        isDeleted: isDeleted ?? false);
   }
 }
 
